@@ -207,6 +207,33 @@ std::shared_ptr<LLHlsHttpInterceptor> LLHlsPublisher::CreateInterceptor()
 {
 	auto http_interceptor = std::make_shared<LLHlsHttpInterceptor>();
 
+	http_interceptor->Register(http::Method::Get, "/", [this](const std::shared_ptr<http::svr::HttpExchange> &exchange) -> http::svr::NextHandler {
+		auto response = exchange->GetResponse();
+		response->SetStatusCode(http::StatusCode::OK);
+		response->SetHeader("Content-Type", "text/html;charset=UTF-8");
+		response->SetHeader("Content-Length", "439");
+		response->AppendString("<!DOCTYPE html>");
+		response->AppendString("<html lang=\"en\">");
+		response->AppendString("<head>");
+		response->AppendString("<meta charset=\"UTF-8\">");
+		response->AppendString("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+		response->AppendString("<title>Roses Stream</title>");
+		response->AppendString("</head>");
+		response->AppendString("<body>");
+		response->AppendString("<h1>Roses Stream</h1>");
+		response->AppendString("<p>");
+		response->AppendString("If you have ended up on this page, and don't know why, you probably want to go to <a href=\"https://radio.roses.media\">radio.roses.media</a>");
+		response->AppendString("</p>");
+		response->AppendString("<footer>");
+		response->AppendString("<a href=\"https://www.york.ac.uk/about/legal-statements/\">Disclaimer</a>");
+		response->AppendString("</footer>");
+		response->AppendString("</body>");
+		response->AppendString("</html>");
+		response->Response();
+		exchange->Release();
+		return http::svr::NextHandler::DoNotCall;
+	});
+
 	// Register Request Handler
 	http_interceptor->Register(http::Method::Options, R"((.+\.m3u8$)|(.+llhls\.(m4s|vtt)$))", [this](const std::shared_ptr<http::svr::HttpExchange> &exchange) -> http::svr::NextHandler {
 		auto connection = exchange->GetConnection();

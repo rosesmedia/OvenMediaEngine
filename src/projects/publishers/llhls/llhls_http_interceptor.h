@@ -58,6 +58,11 @@ protected:
 			{
 				return true;
 			}
+
+			else if (parsed_uri->Path() == "/")
+			{
+				return true;
+			}
 		}
 
 		return false;
