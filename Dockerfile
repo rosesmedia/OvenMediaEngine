@@ -49,7 +49,7 @@ FROM    base_build AS build
 WORKDIR /tmp
 
 ARG     USE_GPU
-ARG     OME_VERSION=v0.20.5
+ARG     OME_VERSION=v0.20.5-roses.2
 ARG     USE_LOCAL=false
 ARG     STRIP=true
 
@@ -67,7 +67,7 @@ RUN \
                 cp -a ${TEMP_LOCAL_DIR}/. ${TEMP_DIR}/; \
         else \
                 rm -rf ${TEMP_DIR} && \
-                git clone --branch ${OME_VERSION} --single-branch --depth 1 https://github.com/OvenMediaLabs/OvenMediaEngine ${TEMP_DIR}; \
+                git clone --branch ${OME_VERSION} --single-branch --depth 1 https://github.com/rosesmedia/OvenMediaEngine ${TEMP_DIR}; \
         fi && \
         rm -rf ${TEMP_LOCAL_DIR}
 
